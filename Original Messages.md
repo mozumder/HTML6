@@ -13,55 +13,56 @@ The HTML body thus becomes a templating language, with all the content residing 
 
 Example web page:
 ----
-<DOCTYPE html>
-<HTML LANG=“en”>
-<HEAD>
-<FIXTURES lang=“xml”>
-	<model class=“MyArticleData”>
-		<rsp stat=“ok">
-			<article label=“one” id=“1">
-				<headline>"Big News!”</headline>
-				<body>"<p>This is the first article intro.</p><p>This is the second paragraph.</p>"</body>
-			</article>
-			<article label=“two” id=“2">
-				<headline>"Not so big news"</headline>
-				<body>"<p>This is the <em>second</em> article.</p>"</body>
-			</article>
-		</rsp>
-	</model>
-	<model class=“MyImageData”>
-		<rsp stat=“ok">
-			<image label="Square" width="75" height="75" source="https://mycontentserver.com/image_s.jpg" id=“3"/>
-			<image label=“Tall" width=“300" height=“200" source="https://mycontentserver.com/image_l.jpg" id=“4"/>
-		</rsp>
-		<rsp stat=“loading">
-			<image label="Square" width="75" height="75" source="https://mycontentserver.com/loading_image_s.jpg" id=“1"/>
-		</rsp>
-		<rsp stat=“some_error">
-			<image label="Square" width="75" height="75" source="https://mycontentserver.com/error_image_s.jpg" id=“2"/>
-			<message
-		</rsp>
-	</model>
-</FIXTURES>
-</HEAD>
-<BODY>
-	<MENU class=“controller”>
-		<A href=“http://api.mywebsite.com/api/load-new-article” model=“MyArticleData">Click here to replace the articles with different articles.</A>
-		<A href=“http://api.mywebsite.com/api/load-new-image” model=“MyImageData">Click here to replace the picture with a different picture.</A>
-	</MENU>
-	<MAIN class=“viewer”>
-		<ARTICLE class=“center">
-			<H1 model=“MyArticleData.rsp.article(label=‘one’).headline” />
-			<SPAN model="MyArticleData.rsp.article(label=’one’).body” />
-		</ARTICLE>
-		<ARTICLE class=“sidebar">
-			<H1 model=“MyArticleData.rsp.article(label=’two’).headline” />
-			<SPAN model=“MyArticleData.rsp.article(label=’two’).body” />
-		</ARTICLE>
-		<IMG src=“model:MyImageData.rsp.image(label=‘Square’)#source” width=“model:MyImageData.rsp.image(label=‘Square’)#width” height=“model:MyImageData.rsp.image(label=’Square’)#height”>
-	</MAIN>
-</BODY>
-</HTML>
+
+    <DOCTYPE html>
+    <HTML LANG=“en”>
+    <HEAD>
+    <FIXTURES lang=“xml”>
+        <model class=“MyArticleData”>
+            <rsp stat=“ok">
+                <article label=“one” id=“1">
+                    <headline>"Big News!”</headline>
+                    <body>"<p>This is the first article intro.</p><p>This is the second paragraph.</p>"</body>
+                </article>
+                <article label=“two” id=“2">
+                    <headline>"Not so big news"</headline>
+                    <body>"<p>This is the <em>second</em> article.</p>"</body>
+                </article>
+            </rsp>
+        </model>
+        <model class=“MyImageData”>
+            <rsp stat=“ok">
+                <image label="Square" width="75" height="75" source="https://mycontentserver.com/image_s.jpg" id=“3"/>
+                <image label=“Tall" width=“300" height=“200" source="https://mycontentserver.com/image_l.jpg" id=“4"/>
+            </rsp>
+            <rsp stat=“loading">
+                <image label="Square" width="75" height="75" source="https://mycontentserver.com/loading_image_s.jpg" id=“1"/>
+            </rsp>
+            <rsp stat=“some_error">
+                <image label="Square" width="75" height="75" source="https://mycontentserver.com/error_image_s.jpg" id=“2"/>
+                <message
+            </rsp>
+        </model>
+    </FIXTURES>
+    </HEAD>
+    <BODY>
+        <MENU class=“controller”>
+            <A href=“http://api.mywebsite.com/api/load-new-article” model=“MyArticleData">Click here to replace the articles with different articles.</A>
+            <A href=“http://api.mywebsite.com/api/load-new-image” model=“MyImageData">Click here to replace the picture with a different picture.</A>
+        </MENU>
+        <MAIN class=“viewer”>
+            <ARTICLE class=“center">
+                <H1 model=“MyArticleData.rsp.article(label=‘one’).headline” />
+                <SPAN model="MyArticleData.rsp.article(label=’one’).body” />
+            </ARTICLE>
+            <ARTICLE class=“sidebar">
+                <H1 model=“MyArticleData.rsp.article(label=’two’).headline” />
+                <SPAN model=“MyArticleData.rsp.article(label=’two’).body” />
+            </ARTICLE>
+            <IMG src=“model:MyImageData.rsp.image(label=‘Square’)#source” width=“model:MyImageData.rsp.image(label=‘Square’)#width” height=“model:MyImageData.rsp.image(label=’Square’)#height”>
+        </MAIN>
+    </BODY>
+    </HTML>
 
 Hope this makes it clear.  
 
@@ -83,61 +84,61 @@ Lots of people seem to be picking up on the idea of a <MODEL> element.  In my or
 
 So, in my initial example, I defined fixtures with:
 
-<FIXTURES lang=“xml”>
-	<model class=“MyArticleData”>
-		<rsp stat=“ok">
-			<article label=“one” id=“1">
-				<headline>"Big News!”</headline>
-				<body>"<p>This is the first article intro.</p><p>This is the second paragraph.</p>"</body>
-			</article>
-			<article label=“two” id=“2">
-				<headline>"Not so big news"</headline>
-				<body>"<p>This is the <em>second</em> article.</p>"</body>
-			</article>
-		</rsp>
-	</model>
-	<model class=“MyImageData”>
-		<rsp stat=“ok">
-			<image label="Square" width="75" height="75" source="https://mycontentserver.com/image_s.jpg" id=“3"/>
-			<image label=“Tall" width=“300" height=“200" source="https://mycontentserver.com/image_l.jpg" id=“4"/>
-		</rsp>
-		<rsp stat=“loading">
-			<image label="Square" width="75" height="75" source="https://mycontentserver.com/loading_image_s.jpg" id=“1"/>
-		</rsp>
-		<rsp stat=“some_error">
-			<image label="Square" width="75" height="75" source="https://mycontentserver.com/error_image_s.jpg" id=“2"/>
-		</rsp>
-	</model>
-</FIXTURES>
+    <FIXTURES lang=“xml”>
+        <model class=“MyArticleData”>
+            <rsp stat=“ok">
+                <article label=“one” id=“1">
+                    <headline>"Big News!”</headline>
+                    <body>"<p>This is the first article intro.</p><p>This is the second paragraph.</p>"</body>
+                </article>
+                <article label=“two” id=“2">
+                    <headline>"Not so big news"</headline>
+                    <body>"<p>This is the <em>second</em> article.</p>"</body>
+                </article>
+            </rsp>
+        </model>
+        <model class=“MyImageData”>
+            <rsp stat=“ok">
+                <image label="Square" width="75" height="75" source="https://mycontentserver.com/image_s.jpg" id=“3"/>
+                <image label=“Tall" width=“300" height=“200" source="https://mycontentserver.com/image_l.jpg" id=“4"/>
+            </rsp>
+            <rsp stat=“loading">
+                <image label="Square" width="75" height="75" source="https://mycontentserver.com/loading_image_s.jpg" id=“1"/>
+            </rsp>
+            <rsp stat=“some_error">
+                <image label="Square" width="75" height="75" source="https://mycontentserver.com/error_image_s.jpg" id=“2"/>
+            </rsp>
+        </model>
+    </FIXTURES>
 
 This implies a set of models and so the browser creates those models.
 
 A version with explicit model definitions via <MODEL> elements would be:
 
-<HEAD>
-<MODEL class=“MyArticleData”>
-	<MODEL class=“rsp” type=“response">
-		<MODEL class=“article”>
-			<PROPERTY name=“label” type=“string”>
-			<MODEL class=“headline” type=“string”>  
-			<MODEL class=“body” type=“string">
-		</MODEL>
-	</MODEL>
-</MODEL>
-<MODEL  class=“MyImageData”>
-	<MODEL class=“rsp" type=“response">
-		<MODEL class=“image”>
-			<PROPERTY name=“label” type=“string”>
-			<PROPERTY name=“width” type=“integer”>
-			<PROPERTY name=“height” type=“integer”>
-			<PROPERTY name=“source” type=“url”>
-		</MODEL>
-	</MODEL>
-</MODEL>
-<FIXTURES>
-	… fixtures go here (XML or JSON format)
-</FIXTURES>
-</HEAD>
+    <HEAD>
+    <MODEL class=“MyArticleData”>
+        <MODEL class=“rsp” type=“response">
+            <MODEL class=“article”>
+                <PROPERTY name=“label” type=“string”>
+                <MODEL class=“headline” type=“string”>  
+                <MODEL class=“body” type=“string">
+            </MODEL>
+        </MODEL>
+    </MODEL>
+    <MODEL  class=“MyImageData”>
+        <MODEL class=“rsp" type=“response">
+            <MODEL class=“image”>
+                <PROPERTY name=“label” type=“string”>
+                <PROPERTY name=“width” type=“integer”>
+                <PROPERTY name=“height” type=“integer”>
+                <PROPERTY name=“source” type=“url”>
+            </MODEL>
+        </MODEL>
+    </MODEL>
+    <FIXTURES>
+        … fixtures go here (XML or JSON format)
+    </FIXTURES>
+    </HEAD>
 
 The internal model data structures are constructed based on these model definitions, which, again, may be implicitly or explicitly defined.  The internal models are canonical and strongly typed, and should be as equivalent to SQL as possible.  Also, these are HTML elements - whereas my previous example model fixtures are actually XML.
 
