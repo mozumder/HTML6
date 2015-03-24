@@ -1,4 +1,4 @@
-People are freaking out about the proposal idea of using SQL statements directly to populate the browser’s internal model data store, when I mentioned using <A href="sql:select from *”>
+People are freaking out about the proposal idea of using SQL statements directly to populate the browser’s internal model data store, when I mentioned using `<A href="sql:select from *”>`
 
 a few things about this:
 
@@ -16,7 +16,7 @@ would be transformed into:
 	
 	SELECT first_name, last_name FROM users WHERE manager=“Boss Man”;
 
-The back-end web/app server does this type of transform before hitting the database.  The server basically offers the client a subset of the database schema.  The client might not even see nor be aware of the “manager” column, for example.  The front-end user just sees this limited sub-schema, and happily operates only that data.  Since it’s up the the server to do this type of transform, the server might not even be using an SQL RDBMS, and it might transform/interface into something else entirely.  
+The back-end web/app server does this type of transform before hitting the database.  The server basically offers the client a subset of the database schema.  The client might not even see nor be aware of the `manager` column, for example.  The front-end user just sees this limited sub-schema, and happily operates only that data.  Since it’s up the the server to do this type of transform, the server might not even be using an SQL RDBMS, and it might transform/interface into something else entirely.  
 
 4. This SQL interface would be an optional spec.  On the internet, you would most likely be using JSON APIs at first anyways.  But I would recommend something like this because this was designed to eliminate a layer of back-end when using a local database app, as well as eliminating the need to use Javascript for such local database accesses.  
 

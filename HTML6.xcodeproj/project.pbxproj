@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		EC70054A1AC0E50000FA5AC0 /* Original Messages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Original Messages"; sourceTree = "<group>"; };
+		EC70054A1AC0E50000FA5AC0 /* Email Messages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Email Messages"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		EC7005411AC0D90500FA5AC0 = {
 			isa = PBXGroup;
 			children = (
-				EC70054A1AC0E50000FA5AC0 /* Original Messages */,
+				EC70054A1AC0E50000FA5AC0 /* Email Messages */,
 			);
 			sourceTree = "<group>";
 		};
