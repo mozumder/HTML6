@@ -7,23 +7,15 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		EC7005481AC0DA1500FA5AC0 /* Original Messages.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "Original Messages.md"; sourceTree = "<group>"; };
+		EC70054A1AC0E50000FA5AC0 /* Original Messages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Original Messages"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		EC7005411AC0D90500FA5AC0 = {
 			isa = PBXGroup;
 			children = (
-				EC7005491AC0E3A000FA5AC0 /* Original Messages */,
-				EC7005481AC0DA1500FA5AC0 /* Original Messages.md */,
+				EC70054A1AC0E50000FA5AC0 /* Original Messages */,
 			);
-			sourceTree = "<group>";
-		};
-		EC7005491AC0E3A000FA5AC0 /* Original Messages */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Original Messages";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
