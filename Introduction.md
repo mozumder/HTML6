@@ -1,0 +1,298 @@
+Problem
+-------
+
+There’s a standard design pattern emerging via all the front-end Javascript frameworks where content is loaded dynamically via JSON APIs.  This is commonly known as the single-page web app.  
+
+Web developers do this to help the user's web browsing experience.  Normally, whenever a user clicks on a link, the browser loads a completely new HTML document.  Meanwhile, on a typical website, the pages share a common HTML document structure.  As a user traverses a site, the server has to generate the same data over and over, and the browser has to reload the same data over and over.  This wastes time and power, and can result in a noticeable lag when interacting with a website.  So, web developers use these Javascript frameworks to cut down on that lag.  When a user clicks a link, these Javascript frameworks only load certain parts of the HTML document.  Since the document structure typically doesn't change for a site, they can just reload the elements that do change. Doing this shaves several milliseconds when interacting with a webpage, which can be a critical to the user's experience.
+
+Meanwhile, there are several obvious problems with this approach.  Every web page now has to include a huge Javascript framework that the browser has to load and compile.  These frameworks can be several hundred KB for a page.  This takes time and power.  These Javascript frameworks aren't easy to use, and have different features and capabilities.   They’re all trying to figure it out and in a state of flux. Angular is being redesigned and will break backwards compatibility for 2.0.  Ember is also being heavily upgraded.  Backbone & React doesn’t do the full flow, as you still need to bring in other frameworks for things like persistent data modeling.  There are probably new frameworks popping up weekly as well.
+
+Additionally, a big problem is Javascript itself.  Should we force millions of web developers to learn a Javascript, a framework, and an associated templating language, if they want a speedy and responsive website out-of-the-box?  This is a huge barrier for beginners, so right now they’re stuck with slower full page reloads, because HTML by default loads full web pages.
+
+So there's a real, heavy cost associated with these frameworks.  This cost needs to be reduced for a successful web.
+
+
+Proposal
+--------
+
+Since this web design pattern is so common now, we would like to see browsers to implement this directly via enhancements to HTML so that users can dynamically run single-page apps without having to use Javascript.
+
+This could probably be done by linking anchor elements to JSON  (or XML) API endpoints, having the browser load this data into a new model object, and then replacing DOM elements with this new data. Initial data, as well as standard error responses, could be in header fixtures, which could be replaced later.  
+
+DOM elements are live updated by model data through assignment of model objects to DOM objects.
+
+HTML thus becomes a templating language, with content residing in model objects that can be dynamically reloaded without Javascript.
+
+Example
+-------
+
+    <DOCTYPE html>
+    <HTML LANG="en">
+    <HEAD>
+    <MODEL class="myArticleData">
+        <MODEL class="rsp" type="response">
+            <MODEL class="article">
+                <PROPERTY name="label" type="string">
+                <MODEL class="headline" type="string">  
+                <MODEL class="body" type="string">
+            </MODEL>
+        </MODEL>
+        <FIXTURE lang="json">
+            {
+               "stat": "ok",
+               "article": [
+                  {
+                     "id": "1",
+                     "label": "one",
+                     "headline": "Big News!",
+                     "body": "<p>This is the first article.</p>"
+                  },
+                  {
+                     "id": "2",
+                     "label": "two",
+                     "headline": "Not so big news",
+                     "body": "<p>This is the second article.</p>"
+                  }
+               ]
+            }
+        </FIXTURE>
+    </MODEL>
+    <MODEL class="myImageData">
+        <MODEL class="rsp" type="response">
+            <MODEL class="image">
+                <PROPERTY name="label" type="string">
+                <PROPERTY name="width" type="integer">
+                <PROPERTY name="height" type="integer">
+                <PROPERTY name="source" type="url">
+            </MODEL>
+        </MODEL>
+        <FIXTURE lang="json">
+            {
+               "stat": "ok",
+               "image": [
+                  {
+                     "id": "3",
+                     "label": "Square",
+                     "width": "75",
+                     "height": "75",
+                     "source": "https://mycontentserver.com/image_s.jpg",
+                  },
+                  {
+                     "id": "4",
+                     "label": "Tall",
+                     "width": "300",
+                     "height": "200",
+                     "source": "https://mycontentserver.com/image_l.jpg"
+                  }
+               ]
+            }
+        </FIXTURE>
+        <FIXTURE lang="json">
+            {
+               "stat": "loading",
+               "image": {
+                  "id": "1",
+                  "label": "Square",
+                  "width": "75",
+                  "height": "75",
+                  "source": "https://mycontentserver.com/loading_image_s.jpg"
+               }
+            }
+        </FIXTURE>
+        <FIXTURE lang="json">
+            {
+               "stat": "some_error",
+               "image": {
+                  "id": "2",
+                  "label": "Square",
+                  "width": "75",
+                  "height": "75",
+                  "source": "https://mycontentserver.com/error_image_s.jpg"
+               }
+            }
+        </FIXTURE>
+    </MODEL>
+    </HEAD>
+    <BODY>
+        <MENU class="controller">
+            <A href="article-2.html" mref="http://api.mywebsite.com/api/article-2" receiver="MyArticleData">Click here to replace the articles with different articles.</A>
+            <A href="image-2.html" mref="http://api.mywebsite.com/api/image-2" receiver="MyImageData">Click here to replace the picture with a different picture.</A>
+        </MENU>
+        <MAIN class="viewer">
+            <ARTICLE class="center">
+                <H1 model="MyArticleData.rsp.article(label=‘one’).headline" />
+                <SPAN model="MyArticleData.rsp.article(label=’one’).body" />
+            </ARTICLE>
+            <ARTICLE class="sidebar">
+                <H1 model="MyArticleData.rsp.article(label=’two’).headline" />
+                <SPAN model="MyArticleData.rsp.article(label=’two’).body" />
+            </ARTICLE>
+            <IMG src="model:MyImageData.rsp.image(label=‘Square’)#source" width="model:MyImageData.rsp.image(label=‘Square’)#width" height="model:MyImageData.rsp.image(label=’Square’)#height">
+        </MAIN>
+    </BODY>
+    </HTML>
+
+Clicking on a link loads JSON data from the endpoint specified in `MREF` property into a destination data model specified in `receiver`.  This is separate from the DOM.   The initial JSON fixtures are in the `<MODEL>` section here, but these fixtures can be in an external link, or implicitly defined by default within the `<BODY>` elements using model references.  The schema can be defined implicitly via `<FIXTURE>`, or perhaps explicitly by `<MODEL>` elements, or even SQL statements.
+
+The text sections have `<H1>` and `<SPAN>` tags with a new `MODEL` attribute that defines its content based on the model object data.  This format is declarative, but can approach SQL's' complexity.  You don’t need presentation-layer controller/view structures, but this example includes them.
+
+There is also a `model:` URI that old attributes and the rest of the page can use to references the loaded data.  Anything in the DOM should be replaceable, including the URL bar and style sheets.  This internal data can be modified by Javascript if needed, separate from modifying the DOM - you could export this data for form processing if you wish.  This internal data can also be push updated by a server or connected directly to a local database for caching or persistence - the browser manages this now, instead of the web developer/Javascript.
+
+Model references can call any object, with the ability to define conditions to access objects, perhaps looping through lists of objects and using `<TEMPLATE>` tags to instantiate new DOM objects.  There should be standard conventions for common error control.  More advanced link URLs could include SQL statements - `<A href="http://...">` becomes `<A href="sql:select from *">`.  Conventions would be defined for authentication.  The controller’s own `HREF` links could also be changed.  A link could update multiple model structures.  
+
+Model Object
+------------
+
+A `<MODEL>` is equivalent to an SQL TABLE.  Both the model’s `TYPE` attribute and `<PROPERTY>` elements would be the equivalent of an SQL `COLUMN`.  For example, the `article` model has a `TYPE="string"`, and this means the article model has a default field that is equivalent of an SQL `VARCHAR` field.  We can add more fields via `<PROPERTY>` elements, as done in the example.  The `image` model in this example doesn’t have a default field, but we added several via `<PROPERTY>` elements.  All models should have at least one default and unique primary key - ID.  I don’t show it here, but this is where we would have foreign key references as well, via a `<REFERENCE>` elements.  This example uses child model definitions to make it clear.
+
+Certain model types are used to define behavior. The `response` type for the `rsp` model indicates to the browser that this is going to be an API’s response, so let’s prepare for that.  Strings could have `maxLengths`, etc.
+
+The fun stuff starts to happen with these model definitions. This is where you would have more advanced apps that go beyond simple CRUD.  You could process these objects in Javascript if you wish, and will expand on that here.  
+
+Model Methods
+-------------
+
+We could assign Javascript event callbacks to these models or properties that perform actions.  There would be a whole set of events, similar to what the HTML presentation layer has already (`onMouseOver`, `onKeyPress`, etc.). For model objects, it would be things like `onLoad`, `onExpire`, etc.. - far too numerous to list here in this early concept stage.  It would include event message objects and bubbling, like the rest of Javascript’s event system.
+
+For example, if you wanted to translate a JSON Markdown text object into HTML for presentation, you could do that in a callback function attached in the HTML:
+
+	<MODEL class="MyArticleData" onLoad="MarkdownToHTML">
+
+They could be attached in Javascript:
+
+	models.MyArticleData.onLoad=function(){MarkdownToHTML};
+
+or:
+
+	models.MyArticleData.addEventListener("onLoad", MarkdownToHTML)
+
+You could access model objects via a Javascript API:
+
+	models.MyArticleData.rsp.get("stat=‘ok’").article.get("id=1").headline = "Dewey Defeats Truman"
+
+or directly via arrays on the primary key:
+
+	models.MyArticleData.article[1].headline = "Nope"
+
+(I collapsed in the `rsp` model here into `MyArticleData` as a feature of the `response` model type.)
+
+You could apply the above Markdown converter to just the article `body` model object:
+
+	models.MyArticleData.article.body = function(){MarkdownToHTML};
+
+You could do things like subscribe to a push API server:
+
+	models.MyArticleData.pushSubscribe("http://api.mynewsserver.com/user-id-5678")
+
+or:
+
+	<MODEL class="MyArticleData" src="http://api.mynewsserver.com/user-id-5678">
+
+And whenever you get a new message, you can update the page:
+
+	models.MyArticleData.onPush=function(){UpdateMessageWindow}
+
+Form fields interact with models directly:
+
+	<INPUT type="text" model="MyArticleData.article.headline">
+
+You don’t need a `<FORM>` element for this interaction with the model, as it updates live. You do need it if you want to send the data to the server via a `<BUTTON>`, and we could add a `<FIELD>` element for sending model data:
+
+	<FORM action="http://api.mynewsserver.com/edit-article">
+		<FIELD model="MyAppData.api_key">
+		<FIELD model="MyArticleData.article.id">
+		<FIELD model="MyArticleData.article.headline">
+		<FIELD model="MyArticleData.article.body">
+		<BUTTON type="submit" >Edit Article</BUTTON>
+	</FORM>
+
+If you wanted to receive data into a model as well:
+
+	<FORM action="http://api.mynewsserver.com/load-article" model="MyArticleData">
+
+With this, you could create basic but highly-responsive single-page CRUD apps without Javascript.
+
+For more custom stuff in Javascript, there would be an equivalent to `XMLHttpRequest` API, except for model interactions:
+
+	var request = new ModelHttpRequest();
+	request.open(‘GET’, 'http://api.mynewsserver.com/get-latest-article', true);
+	request.receiverModel(MyArticleData)
+	request.send()
+
+If you wanted to send a model via Javascript instead of an HTML `<FORM>`:
+
+	var request = new ModelHttpRequest();
+	request.open(‘POST’, 'http://api.mynewsserver.com/edit-article', true);
+	request.sendModelData([MyAppData.api_key, MyArticleData])
+	request.send()
+
+There would be lots of features here, such as translating API names to model names.
+
+If you always wanted to send new objects:
+
+	<MODEL class="MyArticleData" onChange="mySendFunction">
+
+This is also where you could define custom non-default response handlers if you wish:
+
+	<MODEL class="MyArticleData" onResponse="myResponseHandler">
+
+As for presentation, use the `<TEMPLATE>` element to show model objects in lists:
+
+	<UL class="headLines">
+		<TEMPLATE model="MyArticleData.article">
+			<LI model="this.headline"></LI>
+		</TEMPLATE>
+	</UL>
+
+This would be the equivalent to "`block`" structures in other templating languages, with `this` accessors available within a template block.  
+
+Maybe you want infinite scroll:
+
+	<UL class="headLines">
+		<TEMPLATE model="MyArticleData.article">
+			<LI model="this.headline" onShow="loadMoreArticles"></LI>
+		</TEMPLATE>
+		<TEMPLATE model="MyArticleData.article">
+			<LI model="this.headline"></LI>
+		</TEMPLATE>
+		<TEMPLATE model="MyArticleData.article">
+			<LI model="this.headline"></LI>
+		</TEMPLATE>
+	</UL>
+
+Each reference to the same model cycles through model objects here.
+
+Advanced users might use the object store for caching purposes:
+
+	<MODEL class="MyArticleData" src="http://api.mynewsserver.com/user-id-5678" expire=300>
+
+This would invalidate records after 300 seconds.  The `SRC` connection could also push a cache invalidation. 
+
+Caching is a bit complicated and in order to keep this high-concept design note quick & simple, we will leave it for now.
+
+SQL Queries
+-----------
+
+Data can be accessed on a server via SQL Queries directly. This data can then be used to populate the model objects.
+
+This is designed with a front-end client sandbox perspective, not a back-end server perspective that databases typically operate in.  There are important security issues, but they matters less when operating on local data for a local app, like a single-player game on a mobile device.
+
+There are also millions of non-interactive websites with static content that also don't need to worry about complex security.  You still have the same level of table read permissions, and database writes should be disallowed by default.
+
+Finally, for more complex authorization requirements, the expected a use model would be for the server to transform SQL statements. 
+
+For example:
+
+	SELECT first_name, last_name FROM users;
+
+would be transformed into:
+	
+	SELECT first_name, last_name FROM users WHERE manager=“Boss Man”;
+
+The back-end web or app server does this type of transform before hitting the database.  The server basically offers the client a subset of the database schema.  The client might not even see nor be aware of the `manager` column here, for example.  The front-end user just sees this limited sub-schema, and happily operates only that data.  Since it’s up the the server to do this type of transform, the server might not even be using an SQL RDBMS, and it might transform or interface into something else entirely.  
+
+This SQL interface would be an optional spec.  On the internet, you would most likely be using JSON APIs at first anyways.  This was designed to eliminate a layer of back-end when using a local database app, as well as eliminating the need to use Javascript for such local database accesses.  
+
+
+
+
