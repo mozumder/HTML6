@@ -14,8 +14,16 @@
 		EC7005411AC0D90500FA5AC0 = {
 			isa = PBXGroup;
 			children = (
+				EC7005491AC0E3A000FA5AC0 /* Original Messages */,
 				EC7005481AC0DA1500FA5AC0 /* Original Messages.md */,
 			);
+			sourceTree = "<group>";
+		};
+		EC7005491AC0E3A000FA5AC0 /* Original Messages */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Original Messages";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
