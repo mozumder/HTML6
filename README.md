@@ -37,25 +37,6 @@ Example
                 <MODEL class="body" type="string">
             </MODEL>
         </MODEL>
-        <FIXTURE lang="json">
-            {
-               "stat": "ok",
-               "article": [
-                  {
-                     "id": "1",
-                     "label": "one",
-                     "headline": "Big News!",
-                     "body": "<p>This is the first article.</p>"
-                  },
-                  {
-                     "id": "2",
-                     "label": "two",
-                     "headline": "Not so big news",
-                     "body": "<p>This is the second article.</p>"
-                  }
-               ]
-            }
-        </FIXTURE>
     </MODEL>
     <MODEL class="myImageData">
         <MODEL class="rsp" type="response">
@@ -65,52 +46,52 @@ Example
                 <PROPERTY name="height" type="integer">
                 <PROPERTY name="source" type="url">
             </MODEL>
+            <FIXTURE lang="json">
+                {
+                   "stat": "ok",
+                   "image": [
+                      {
+                         "id": "3",
+                         "label": "Square",
+                         "width": "75",
+                         "height": "75",
+                         "source": "https://mycontentserver.com/image_s.jpg",
+                      },
+                      {
+                         "id": "4",
+                         "label": "Tall",
+                         "width": "300",
+                         "height": "200",
+                         "source": "https://mycontentserver.com/image_l.jpg"
+                      }
+                   ]
+                }
+            </FIXTURE>
+            <FIXTURE lang="json">
+                {
+                   "stat": "loading",
+                   "image": {
+                      "id": "1",
+                      "label": "Square",
+                      "width": "75",
+                      "height": "75",
+                      "source": "https://mycontentserver.com/loading_image_s.jpg"
+                   }
+                }
+            </FIXTURE>
+            <FIXTURE lang="json">
+                {
+                   "stat": "some_error",
+                   "image": {
+                      "id": "2",
+                      "label": "Square",
+                      "width": "75",
+                      "height": "75",
+                      "source": "https://mycontentserver.com/error_image_s.jpg"
+                   }
+                }
+            </FIXTURE>
         </MODEL>
-        <FIXTURE lang="json">
-            {
-               "stat": "ok",
-               "image": [
-                  {
-                     "id": "3",
-                     "label": "Square",
-                     "width": "75",
-                     "height": "75",
-                     "source": "https://mycontentserver.com/image_s.jpg",
-                  },
-                  {
-                     "id": "4",
-                     "label": "Tall",
-                     "width": "300",
-                     "height": "200",
-                     "source": "https://mycontentserver.com/image_l.jpg"
-                  }
-               ]
-            }
-        </FIXTURE>
-        <FIXTURE lang="json">
-            {
-               "stat": "loading",
-               "image": {
-                  "id": "1",
-                  "label": "Square",
-                  "width": "75",
-                  "height": "75",
-                  "source": "https://mycontentserver.com/loading_image_s.jpg"
-               }
-            }
-        </FIXTURE>
-        <FIXTURE lang="json">
-            {
-               "stat": "some_error",
-               "image": {
-                  "id": "2",
-                  "label": "Square",
-                  "width": "75",
-                  "height": "75",
-                  "source": "https://mycontentserver.com/error_image_s.jpg"
-               }
-            }
-        </FIXTURE>
     </MODEL>
     </HEAD>
     <BODY>
@@ -120,12 +101,12 @@ Example
         </MENU>
         <MAIN class="viewer">
             <ARTICLE class="center">
-                <H1 model="MyArticleData.rsp.article(label=‘one’).headline" />
-                <SPAN model="MyArticleData.rsp.article(label=’one’).body" />
+                <H1 model="MyArticleData.rsp.article(label='one').headline">Big News!</H1>
+                <SPAN model="MyArticleData.rsp.article(label='one').body"><P>This is the first article.</P></SPAN>
             </ARTICLE>
             <ARTICLE class="sidebar">
-                <H1 model="MyArticleData.rsp.article(label=’two’).headline" />
-                <SPAN model="MyArticleData.rsp.article(label=’two’).body" />
+                <H1 model="MyArticleData.rsp.article(label='two').headline">Not so big news</H1>
+                <SPAN model="MyArticleData.rsp.article(label='two').body"><P>This is the second article.</P></SPAN>
             </ARTICLE>
             <IMG src="model:MyImageData.rsp.image(label=‘Square’)#source" width="model:MyImageData.rsp.image(label=‘Square’)#width" height="model:MyImageData.rsp.image(label=’Square’)#height">
         </MAIN>
@@ -133,7 +114,9 @@ Example
     </HTML>
 
 
-Clicking on a link loads JSON data from the endpoint specified in `MREF` property into a destination data model specified in the `RECEIVER` property.  This is separate from the DOM.   The `HREF` property remains as a canonical URL.  The initial JSON fixtures are in the `<MODEL>` section here, but these fixtures can be in an external link, or implicitly defined by default within the `<BODY>` elements using model references.  The schema can be defined implicitly via `<FIXTURE>`, or perhaps explicitly by `<MODEL>` elements, or even SQL statements.
+Clicking on a link loads JSON data from the API endpoint specified in `MREF` property into a destination data model object specified in the `RECEIVER` property.  This is destination model object is separate from the DOM.   The `HREF` property remains as a canonical URL for the page, and can be used by older browsers that don't support dynamic page updates.  Older browsers load the canonical `HREF` URL.
+
+The initial fixture data can be loaded from the `<FIXTURE>` element in a `<MODEL>`, but these fixtures can be loaded via an external link, or implicitly by default from within `<BODY>` elements that contain model references. In this example, the `myArticleData` model loads model fixtures from the `<H1>` and `<SPAN>` elements, while the `myImageData` model loads in fixtures from the `<FIXTURE>` elements.  The overall schema can be defined explicitly by `<MODEL>` elements, or implicitly by `<FIXTURE>`, elements, or even through SQL statements.
 
 The text sections have `<H1>` and `<SPAN>` tags with a new `MODEL` attribute that defines its content based on the model object data.  This format is declarative, but can approach SQL's' complexity.  You don’t need presentation-layer controller/view structures, but this example includes them.
 
@@ -296,7 +279,7 @@ This is designed with a front-end client sandbox perspective, not a back-end ser
 
 There are also millions of non-interactive websites with static content, like portfolio or business-card sites, that also don't need to worry about complex security requirements.  For these sites, database writes should be disallowed by default.
 
-Finally, for more complex authorization requirements for a typical multi-user website, the expected a use model would be for the server to transform SQL statements into something secure. 
+Finally, for more complex authorization requirements for a typical multi-user website, the expected a use model would be for the server to transform local SQL statements into something that applies to the server schema.
 
 For example:
 
