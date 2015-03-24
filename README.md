@@ -115,8 +115,8 @@ Example
     </HEAD>
     <BODY>
         <MENU class="controller">
-            <A href="article-2.html" mref="http://api.mywebsite.com/api/article-2" receiver="MyArticleData">Click here to replace the articles with different articles.</A>
-            <A href="image-2.html" mref="http://api.mywebsite.com/api/image-2" receiver="MyImageData">Click here to replace the picture with a different picture.</A>
+            <A href="article-2.html" mref="http://api.mywebsite.com/article-2" receiver="MyArticleData">Click here to replace the articles with different articles.</A>
+            <A href="image-2.html" mref="http://api.mywebsite.com/image-2" receiver="MyImageData">Click here to replace the picture with a different picture.</A>
         </MENU>
         <MAIN class="viewer">
             <ARTICLE class="center">
@@ -132,7 +132,7 @@ Example
     </BODY>
     </HTML>
 
-Clicking on a link loads JSON data from the endpoint specified in `MREF` property into a destination data model specified in `receiver`.  This is separate from the DOM.   The initial JSON fixtures are in the `<MODEL>` section here, but these fixtures can be in an external link, or implicitly defined by default within the `<BODY>` elements using model references.  The schema can be defined implicitly via `<FIXTURE>`, or perhaps explicitly by `<MODEL>` elements, or even SQL statements.
+Clicking on a link loads JSON data from the endpoint specified in `MREF` property into a destination data model specified in the `RECEIVER` property.  This is separate from the DOM.   The `HREF` property remains as a canonical URL.  The initial JSON fixtures are in the `<MODEL>` section here, but these fixtures can be in an external link, or implicitly defined by default within the `<BODY>` elements using model references.  The schema can be defined implicitly via `<FIXTURE>`, or perhaps explicitly by `<MODEL>` elements, or even SQL statements.
 
 The text sections have `<H1>` and `<SPAN>` tags with a new `MODEL` attribute that defines its content based on the model object data.  This format is declarative, but can approach SQL's' complexity.  You don’t need presentation-layer controller/view structures, but this example includes them.
 
@@ -149,10 +149,20 @@ Certain model types are used to define behavior. The `response` type for the `rs
 
 The fun stuff starts to happen with these model definitions. This is where you would have more advanced apps that go beyond simple CRUD.  You could process these objects in Javascript if you wish, and will expand on that here.  
 
-Model Methods
--------------
+Controller
+----------
 
-We could assign Javascript event callbacks to these models or properties that perform actions.  There would be a whole set of events, similar to what the HTML presentation layer has already (`onMouseOver`, `onKeyPress`, etc.). For model objects, it would be things like `onLoad`, `onExpire`, etc.. - far too numerous to list here in this early concept stage.  It would include event message objects and bubbling, like the rest of Javascript’s event system.
+The web browser is the controller. 
+
+We could assign Javascript event callbacks to these models or properties to perform actions.  There would be a whole set of events, similar to what the HTML presentation layer already has (`onMouseOver`, `onKeyPress`, etc.). For model objects, it would be things like `onLoad`, `onExpire`, etc.. - far too numerous to list here in this early concept stage.  It would include event message objects and bubbling, like the rest of Javascript’s event system.
+
+The user interacts with the document view layer.  The user clicks on a link: '<A mref=“http://api.mywebsite.com/article-2”>'
+
+The view layer notifies the browser of a click, and by default the browser fetches 'http://api.mywebsite.com/article-2' and loads data into the model objects.  The model object then by default updates the document View layer.  All the logic to do that is in the browser.  
+
+The browser already has a whole Javascript framework that can be used to enhance its behaviour.  If you want to do some processing on the models, just add a Javascript callback to the model's `onLoad` method.
+
+This maintains the separation of concerns in HTML.  HTML isn’t doing logic here.  The browser is still responsible for logic, and it has default behaviors for these models ("Clicking on this link loads external data into this model") which you can extend ("convert the Markdown model data into HTML", or "load API data at a scroll point”)
 
 For example, if you wanted to translate a JSON Markdown text object into HTML for presentation, you could do that in a callback function attached in the HTML:
 
@@ -192,6 +202,9 @@ And whenever you get a new message, you can update the page:
 
 	models.MyArticleData.onPush=function(){UpdateMessageWindow}
 
+Forms
+-----
+
 Form fields interact with models directly:
 
 	<INPUT type="text" model="MyArticleData.article.headline">
@@ -212,6 +225,9 @@ If you wanted to receive data into a model as well:
 
 With this, you could create basic but highly-responsive single-page CRUD apps without Javascript.
 
+Further Uses
+------------
+
 For more custom stuff in Javascript, there would be an equivalent to `XMLHttpRequest` API, except for model interactions:
 
 	var request = new ModelHttpRequest();
@@ -226,9 +242,9 @@ If you wanted to send a model via Javascript instead of an HTML `<FORM>`:
 	request.sendModelData([MyAppData.api_key, MyArticleData])
 	request.send()
 
-There would be lots of features here, such as translating API names to model names.
+There would be lots of basic capabilities here, such as translating API names to model names.
 
-If you always wanted to send new objects:
+If you always wanted to send new objects whenever a model is updated:
 
 	<MODEL class="MyArticleData" onChange="mySendFunction">
 
@@ -279,7 +295,7 @@ This is designed with a front-end client sandbox perspective, not a back-end ser
 
 There are also millions of non-interactive websites with static content that also don't need to worry about complex security.  You still have the same level of table read permissions, and database writes should be disallowed by default.
 
-Finally, for more complex authorization requirements, the expected a use model would be for the server to transform SQL statements. 
+Finally, for more complex authorization requirements, the expected a use model would be for the server to transform SQL statements into something secure. 
 
 For example:
 
@@ -291,7 +307,7 @@ would be transformed into:
 
 The back-end web or app server does this type of transform before hitting the database.  The server basically offers the client a subset of the database schema.  The client might not even see nor be aware of the `manager` column here, for example.  The front-end user just sees this limited sub-schema, and happily operates only that data.  Since it’s up the the server to do this type of transform, the server might not even be using an SQL RDBMS, and it might transform or interface into something else entirely.  
 
-This SQL interface would be an optional spec.  On the internet, you would most likely be using JSON APIs at first anyways.  This was designed to eliminate a layer of back-end when using a local database app, as well as eliminating the need to use Javascript for such local database accesses.  
+This SQL interface would be optional.  On the internet, you would most likely be using public JSON APIs at first anyways.  The SQL interface was designed to eliminate a layer of back-end when using a local database app, as well as eliminating the need to use Javascript for such local database accesses.  
 
 
 

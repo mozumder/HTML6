@@ -8,14 +8,18 @@
 
 /* Begin PBXFileReference section */
 		EC70054A1AC0E50000FA5AC0 /* Email Messages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Email Messages"; sourceTree = "<group>"; };
-		EC70054B1AC0E8C800FA5AC0 /* Introduction.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Introduction.md; sourceTree = "<group>"; };
+		EC70054B1AC0E8C800FA5AC0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		EC70054D1AC1451C00FA5AC0 /* AUTHORS */ = {isa = PBXFileReference; lastKnownFileType = text; path = AUTHORS; sourceTree = "<group>"; };
+		EC70054E1AC1455B00FA5AC0 /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		EC7005411AC0D90500FA5AC0 = {
 			isa = PBXGroup;
 			children = (
-				EC70054B1AC0E8C800FA5AC0 /* Introduction.md */,
+				EC70054E1AC1455B00FA5AC0 /* CONTRIBUTING.md */,
+				EC70054D1AC1451C00FA5AC0 /* AUTHORS */,
+				EC70054B1AC0E8C800FA5AC0 /* README.md */,
 				EC70054A1AC0E50000FA5AC0 /* Email Messages */,
 			);
 			sourceTree = "<group>";
