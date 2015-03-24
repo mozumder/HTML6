@@ -306,7 +306,7 @@ would be transformed into:
 	
 	SELECT first_name, last_name FROM users WHERE manager="Boss Man";
 
-The back-end web or app server does this type of transform before hitting the database.  The server basically offers the client a sandboxed subset of the database schema.  The client might not even see nor be aware of the `manager` column here, for example.  The front-end user just sees this limited sub-schema, and happily operates only that data.  Since it’s up the the server to do this type of transform, the server might not even be using an SQL RDBMS, and it might transform or interface into something else entirely.  
+The back-end web or app server does this type of transform before hitting the database.  The server basically offers the client a sandboxed subset of the database schema.  The client might not even see nor be aware of the `manager` column here, for example.  The front-end user just sees this sandbox, and happily operates only with that data.  Since it’s up the the server to do this type of transform, the server might not even be using an SQL RDBMS, and it might transform or interface into something else entirely.  This is also where the server might protect against SQL injection attacks, if using an SQL RDMBS.
 
 This SQL interface would be optional.  On the internet, you would most likely be using public JSON APIs at first anyways.  The SQL interface was designed to eliminate a layer of back-end when using a local database app, as well as eliminating the need to use Javascript for such local database accesses.  
 
