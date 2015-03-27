@@ -275,25 +275,61 @@ Caching is a bit complicated and in order to keep this high-concept design note 
 SQL Queries
 -----------
 
-Data can be accessed on a server via SQL Queries directly. This data can then be used to populate the model objects.
+Data can be accessed from a server via SQL Queries. This data can then be used to populate the model objects.
 
 This is designed with a front-end client sandbox perspective, not a back-end server perspective that databases typically operate in.  There are important security issues, but they matters less when operating on local data for a local app, like a single-player game on a mobile device.
 
 There are also millions of non-interactive websites with static content, like portfolio or business-card sites, that also don't need to worry about complex security requirements.  For these sites, database writes should be disallowed by default.
 
-Finally, for more complex authorization requirements for a typical multi-user website, the expected a use model would be for the server to transform local SQL statements into something that applies to the server schema.
+For more complex multi-user websites on the Internet, a possible use model would be for the server to transform local SQL statements into something that applies to the server schema.  The proposal here makes no assumption about the server architecture and data that’s being exposed by the server for the client SQL syntax.  The server is still responsible for securing its data, as always.
 
-For example:
+A server that receives the following command:
 
 	SELECT first_name, last_name FROM users;
 
-would be transformed into:
+May parse that and translate that into something usable like:
 	
 	SELECT first_name, last_name FROM users WHERE manager="Boss Man";
 
-The back-end web or app server does this type of transform before hitting the database.  The server basically offers the client a sandboxed subset of the database schema.  The client might not even see nor be aware of the `manager` column here, for example.  The front-end user just sees this sandbox, and happily operates only with that data.  Since it’s up the the server to do this type of transform, the server might not even be using an SQL RDBMS, and it might transform or interface into something else entirely.  This is also where the server might protect against SQL injection attacks, if using an SQL RDMBS.
+But, if it receives the following SQL command:
 
-This SQL interface would be optional.  On the internet, you would most likely be using public JSON APIs at first anyways.  The SQL interface was designed to eliminate a layer of back-end when using a local database app, as well as eliminating the need to use Javascript for such local database accesses.  
+	DROP TABLE students;
+
+A simple server framework might not even be able to parse it and may just ignores it, while a more advanced server framework might try to authenticate and proceed with it.  Meanwhile, for a local SQL database, like for a game on your mobile device, it might very well delete the table.  But for a remote server, anything could happen, depending on the server’s design.  
+
+When the server does this type of transform before hitting the database, it basically offers the client a sandboxed subset of the database schema.  The client might not even see nor be aware of the `manager` column here, for example.  The front-end user just sees this sandbox, and happily operates only with that data.  Since it’s up the the server to do this type of transform, the server might not even be using an SQL RDBMS, and it might transform or interface into something else entirely.  This is also where the server might protect against SQL injection attacks, if using an SQL RDMBS.
+
+So, for an Internet client-server setup, there would likely be an app server in between the client and the database, like how things are now, and this proposal offers a different syntax.
+
+Right now, if an app server gets this request:
+
+	http://api.mywebsite.com/get_article?id=1234
+
+It may happily oblige.
+
+But if it receives this:
+
+	http://api.mywebsite.com/delete_article?id=1234	
+    
+It would have to authenticate.  Server-side app designers still have to implement their security checks, like they would in a framework like Django:
+
+	from django.contrib.auth import authenticate
+	user = authenticate(username='john', password='secret')
+	if user is not None:
+   		# the password verified for the user
+   		if user.is_active:
+       		print("User is valid, active and authenticated")
+		    else:
+		        print("The password is valid, but the account has been disabled!")
+	else:
+  		 # the authentication system was unable to verify the username and password
+	 	print("The username and password were incorrect.”)
+
+A server-side designer still has to write this kind of code.  This proposal doesn’t remove that requirement.
+
+This proposal means to put the idea of using standard SQL syntax to get/set data for structured remote API data access.  As this proposal is further built, there would be an ORM that could be standardized so that clients could use this SQL syntax.  
+
+Finally, this SQL interface would be optional.  On the internet, you would most likely be using public JSON APIs at first anyways.  The SQL interface was designed to eliminate a layer of back-end when using a local database app, as well as eliminating the need to use Javascript for such local database accesses.  
 
 
 
