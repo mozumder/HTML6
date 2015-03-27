@@ -134,7 +134,7 @@ The text sections have `<H1>` and `<SPAN>` tags with a new `MODEL` attribute tha
 
 There is also a `model:` URI that old attributes and the rest of the page can use to references the loaded data.  Anything in the DOM should be replaceable, including the URL bar and style sheets.  This internal data can be modified by Javascript if needed, separate from modifying the DOM - you could export this data for form processing if you wish.  This internal data can also be push updated by a server or connected directly to a local database for caching or persistence - the browser manages this now, instead of the web developer/Javascript.
 
-Model references can call any object, with the ability to define conditions to access objects, perhaps looping through lists of objects and using `<TEMPLATE>` tags to instantiate new DOM objects.  There should be standard conventions for common error control.  More advanced link URLs could include SQL statements - `<A href="http://...">` becomes `<A href="sql:select from *">`.  Conventions would be defined for authentication.  The controller’s own `HREF` links could also be changed.  A link could update multiple model structures.  
+Model references can call any object, with the ability to define conditions to access objects, perhaps looping through lists of objects and using `<TEMPLATE>` tags to instantiate new DOM objects.  There should be standard conventions for common error control.  More advanced link URLs could include SQL statements - `<A mref="http://...">` becomes `<A mref="sql:select from *">`.  Conventions would be defined for authentication.  The controller’s own `HREF` links could also be changed.  A link could update multiple model structures.  
 
 Model Object
 ------------
