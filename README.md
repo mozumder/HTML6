@@ -17,13 +17,23 @@ So there's a real, heavy cost associated with these frameworks.  This cost needs
 Proposal
 --------
 
-Since this web design pattern is so common now, we would like to see browsers to implement this directly via enhancements to HTML so that users can dynamically run single-page apps without having to use Javascript.
+Since this web design pattern is so common now, we would like to see browsers implement this directly via enhancements to HTML so that users can dynamically run single-page apps without having to use Javascript.
 
-This could probably be done by linking anchor elements to JSON  (or XML) API endpoints, having the browser load this data into a new model object, and then replacing DOM elements with this new data. Initial data, as well as standard error responses, could be in header fixtures, which could be replaced later.  
+This could be done by declaring model objects in the HTML `<HEAD>`:
 
-DOM elements are live updated by model data through assignment of model objects to DOM objects.
+    <MODEL class="myArticleData">
 
-HTML thus becomes a templating language, with content residing in model objects that can be dynamically reloaded without Javascript.
+`<A>` elements would specify JSON/XML API endpoints and models that receive data:
+
+    <A mref="http://api.mywebsite.com/get-article" receiver="myArticleData">
+
+Finally, the DOM is dynamically updated through model references:
+
+    <ARTICLE model="myArticleData">
+
+Initial data, as well as standard error responses, could be in body elements as well as header fixtures, which may be replaced later.  
+
+Thus HTML becomes a templating language, with content residing in model objects that can be dynamically reloaded without Javascript.
 
 Example
 -------
@@ -98,8 +108,8 @@ Example
     </HEAD>
     <BODY>
         <MENU class="controller">
-            <A href="article-2.html" mref="http://api.mywebsite.com/article-2" receiver="MyArticleData">Click here to replace the articles with different articles.</A>
-            <A href="image-2.html" mref="http://api.mywebsite.com/image-2" receiver="MyImageData">Click here to replace the picture with a different picture.</A>
+            <A href="article-2.html" mref="http://api.mywebsite.com/article-2" receiver="myArticleData">Click here to replace the articles with different articles.</A>
+            <A href="image-2.html" mref="http://api.mywebsite.com/image-2" receiver="myImageData">Click here to replace the picture with a different picture.</A>
         </MENU>
         <MAIN class="viewer">
             <ARTICLE class="center">
