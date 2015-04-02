@@ -58,7 +58,7 @@ Example
                 <PROPERTY name="height" type="integer">
                 <PROPERTY name="source" type="url">
             </MODEL>
-            <FIXTURE lang="json">
+            <FIXTURE type="json">
                 {
                    "stat": "ok",
                    "image": [
@@ -79,7 +79,7 @@ Example
                    ]
                 }
             </FIXTURE>
-            <FIXTURE lang="json">
+            <FIXTURE type="json">
                 {
                    "stat": "loading",
                    "image": {
@@ -91,7 +91,7 @@ Example
                    }
                 }
             </FIXTURE>
-            <FIXTURE lang="json">
+            <FIXTURE type="json">
                 {
                    "stat": "some_error",
                    "image": {
@@ -341,6 +341,21 @@ This proposal means to put the idea of using standard SQL syntax to get/set data
 
 Finally, this SQL interface would be optional.  On the internet, you would most likely be using public JSON APIs at first anyways.  The SQL interface was designed to eliminate a layer of back-end when using a local database app, as well as eliminating the need to use Javascript for such local database accesses.  
 
+
+Model API
+---------
+
+init()
+
+set()
+
+get()
+
+willSet()
+
+didSet()
+
+toRaw()
 
 
 
