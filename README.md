@@ -21,7 +21,7 @@ Since this web design pattern is so common now, we would like to see browsers im
 
 This could be done by declaring model objects in the HTML `<HEAD>`:
 
-    <MODEL class="myArticleData">
+    <MODEL name="myArticleData">
 
 `<A>` elements would specify JSON/XML API endpoints and models that receive data:
 
@@ -39,26 +39,26 @@ Example
 -------
 
     <DOCTYPE html>
-    <HTML LANG="en">
+    <HTML lang="en">
     <HEAD>
-    <MODEL class="myArticleData">
-        <MODEL class="rsp" type="response">
-            <MODEL class="article">
+    <MODEL name="myArticleData">
+        <MODEL name="rsp" type="response">
+            <MODEL name="article">
                 <PROPERTY name="label" type="string">
-                <MODEL class="headline" type="string">  
-                <MODEL class="body" type="string">
+                <MODEL name="headline" type="string">  
+                <MODEL name="body" type="string">
             </MODEL>
         </MODEL>
     </MODEL>
-    <MODEL class="myImageData">
-        <MODEL class="rsp" type="response">
-            <MODEL class="image">
+    <MODEL name="myImageData">
+        <MODEL name="rsp" type="response">
+            <MODEL name="image">
                 <PROPERTY name="label" type="string">
                 <PROPERTY name="width" type="integer">
                 <PROPERTY name="height" type="integer">
                 <PROPERTY name="source" type="url">
             </MODEL>
-            <FIXTURE type="json">
+            <FIXTURE type="application/json">
                 {
                    "stat": "ok",
                    "image": [
@@ -79,7 +79,7 @@ Example
                    ]
                 }
             </FIXTURE>
-            <FIXTURE type="json">
+            <FIXTURE type="application/json">
                 {
                    "stat": "loading",
                    "image": {
@@ -91,7 +91,7 @@ Example
                    }
                 }
             </FIXTURE>
-            <FIXTURE type="json">
+            <FIXTURE type="application/json">
                 {
                    "stat": "some_error",
                    "image": {
@@ -113,14 +113,14 @@ Example
         </MENU>
         <MAIN class="viewer">
             <ARTICLE class="center">
-                <H1 model="MyArticleData.rsp.article(label='one').headline">Big News!</H1>
-                <SPAN model="MyArticleData.rsp.article(label='one').body"><P>This is the first article.</P></SPAN>
+                <H1 model="myArticleData.rsp.article(label='one').headline">Big News!</H1>
+                <SPAN model="myArticleData.rsp.article(label='one').body"><P>This is the first article.</P></SPAN>
             </ARTICLE>
             <ARTICLE class="sidebar">
-                <H1 model="MyArticleData.rsp.article(label='two').headline">Not so big news</H1>
-                <SPAN model="MyArticleData.rsp.article(label='two').body"><P>This is the second article.</P></SPAN>
+                <H1 model="myArticleData.rsp.article(label='two').headline">Not so big news</H1>
+                <SPAN model="myArticleData.rsp.article(label='two').body"><P>This is the second article.</P></SPAN>
             </ARTICLE>
-            <IMG src="model:MyImageData.rsp.image(label=‘Square’)#source" width="model:MyImageData.rsp.image(label=‘Square’)#width" height="model:MyImageData.rsp.image(label=’Square’)#height">
+            <IMG src="model:myImageData.rsp.image(label=‘Square’)#source" width="model:myImageData.rsp.image(label=‘Square’)#width" height="model:myImageData.rsp.image(label=’Square’)#height">
         </MAIN>
     </BODY>
     </HTML>
@@ -162,62 +162,62 @@ This maintains the separation of concerns in HTML.  HTML isn’t doing logic her
 
 For example, if you wanted to translate a JSON Markdown text object into HTML for presentation, you could do that in a callback function attached in the HTML:
 
-	<MODEL class="MyArticleData" onLoad="MarkdownToHTML">
+	<MODEL name="myArticleData" onLoad="MarkdownToHTML">
 
 They could be attached in Javascript:
 
-	models.MyArticleData.onLoad=function(){MarkdownToHTML};
+	models.myArticleData.onLoad=function(){MarkdownToHTML};
 
 or:
 
-	models.MyArticleData.addEventListener("onLoad", MarkdownToHTML)
+	models.myArticleData.addEventListener("onLoad", MarkdownToHTML)
 
 You could access model objects via a Javascript API:
 
-	models.MyArticleData.rsp.get("stat=‘ok’").article.get("id=1").headline = "Dewey Defeats Truman"
+	models.myArticleData.rsp.get("stat=‘ok’").article.get("id=1").headline = "Dewey Defeats Truman"
 
 or directly via arrays on the primary key:
 
-	models.MyArticleData.article[1].headline = "Nope"
+	models.myArticleData.article[1].headline = "Nope"
 
-(I collapsed in the `rsp` model here into `MyArticleData` as a feature of the `response` model type.)
+(I collapsed in the `rsp` model here into `myArticleData` as a feature of the `response` model type.)
 
 You could apply the above Markdown converter to just the article `body` model object:
 
-	models.MyArticleData.article.body = function(){MarkdownToHTML};
+	models.myArticleData.article.body = function(){MarkdownToHTML};
 
 You could do things like subscribe to a push API server:
 
-	models.MyArticleData.pushSubscribe("http://api.mynewsserver.com/user-id-5678")
+	models.myArticleData.pushSubscribe("http://api.mynewsserver.com/user-id-5678")
 
 or:
 
-	<MODEL class="MyArticleData" src="http://api.mynewsserver.com/user-id-5678">
+	<MODEL name="myArticleData" src="http://api.mynewsserver.com/user-id-5678">
 
 And whenever you get a new message, you can update the page:
 
-	models.MyArticleData.onPush=function(){UpdateMessageWindow}
+	models.myArticleData.onPush=function(){UpdateMessageWindow}
 
 Forms
 -----
 
 Form fields interact with models directly:
 
-	<INPUT type="text" model="MyArticleData.article.headline">
+	<INPUT type="text" model="myArticleData.article.headline">
 
 You don’t need a `<FORM>` element for this interaction with the model, as it updates live. You do need it if you want to send the data to the server via a `<BUTTON>`, and we could add a `<FIELD>` element for sending model data:
 
 	<FORM action="http://api.mynewsserver.com/edit-article">
 		<FIELD model="MyAppData.api_key">
-		<FIELD model="MyArticleData.article.id">
-		<FIELD model="MyArticleData.article.headline">
-		<FIELD model="MyArticleData.article.body">
+		<FIELD model="myArticleData.article.id">
+		<FIELD model="myArticleData.article.headline">
+		<FIELD model="myArticleData.article.body">
 		<BUTTON type="submit" >Edit Article</BUTTON>
 	</FORM>
 
 If you wanted to receive data into a model as well:
 
-	<FORM action="http://api.mynewsserver.com/load-article" model="MyArticleData">
+	<FORM action="http://api.mynewsserver.com/load-article" model="myArticleData">
 
 With this, you could create basic but highly-responsive single-page CRUD apps without Javascript.
 
@@ -228,30 +228,30 @@ For more custom stuff in Javascript, there would be an equivalent to `XMLHttpReq
 
 	var request = new ModelHttpRequest();
 	request.open(‘GET’, 'http://api.mynewsserver.com/get-latest-article', true);
-	request.receiverModel(MyArticleData)
+	request.receiverModel(myArticleData)
 	request.send()
 
 If you wanted to send a model via Javascript instead of an HTML `<FORM>`:
 
 	var request = new ModelHttpRequest();
 	request.open(‘POST’, 'http://api.mynewsserver.com/edit-article', true);
-	request.sendModelData([MyAppData.api_key, MyArticleData])
+	request.sendModelData([MyAppData.api_key, myArticleData])
 	request.send()
 
 There would be lots of basic capabilities here, such as translating API names to model names.
 
 If you always wanted to send new objects whenever a model is updated:
 
-	<MODEL class="MyArticleData" onChange="mySendFunction">
+	<MODEL name="myArticleData" onChange="mySendFunction">
 
 This is also where you could define custom non-default response handlers if you wish:
 
-	<MODEL class="MyArticleData" onResponse="myResponseHandler">
+	<MODEL name="myArticleData" onResponse="myResponseHandler">
 
 As for presentation, use the `<TEMPLATE>` element to show model objects in lists:
 
 	<UL class="headLines">
-		<TEMPLATE model="MyArticleData.article">
+		<TEMPLATE model="myArticleData.article">
 			<LI model="this.headline"></LI>
 		</TEMPLATE>
 	</UL>
@@ -261,13 +261,13 @@ This would be the equivalent to "`block`" structures in other templating languag
 Maybe you want infinite scroll:
 
 	<UL class="headLines">
-		<TEMPLATE model="MyArticleData.article">
+		<TEMPLATE model="myArticleData.article">
 			<LI model="this.headline" onShow="loadMoreArticles"></LI>
 		</TEMPLATE>
-		<TEMPLATE model="MyArticleData.article">
+		<TEMPLATE model="myArticleData.article">
 			<LI model="this.headline"></LI>
 		</TEMPLATE>
-		<TEMPLATE model="MyArticleData.article">
+		<TEMPLATE model="myArticleData.article">
 			<LI model="this.headline"></LI>
 		</TEMPLATE>
 	</UL>
@@ -276,7 +276,7 @@ Each reference to the same model cycles through model objects here.
 
 Advanced users might use the object store for caching purposes:
 
-	<MODEL class="MyArticleData" src="http://api.mynewsserver.com/user-id-5678" expire=300>
+	<MODEL name="myArticleData" src="http://api.mynewsserver.com/user-id-5678" expire=300>
 
 This would invalidate records after 300 seconds.  The `SRC` connection could also push a cache invalidation. 
 
