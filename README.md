@@ -31,14 +31,14 @@ Finally, the DOM is dynamically updated through model references:
 
     <ARTICLE model="myArticleData">
 
-Initial data, as well as standard error responses, could be in body elements as well as header fixtures, which may be replaced later.  
+Initial data, as well as standard error responses, could be in `<body>` elements as well as `<head>` fixtures, which may be replaced later.  
 
 Thus HTML becomes a templating language, with content residing in model objects that can be dynamically reloaded without Javascript.
 
 Example
 -------
 
-    <DOCTYPE html>
+    <!DOCTYPE html>
     <HTML lang="en">
     <HEAD>
     <MODEL name="myArticleData">
@@ -126,11 +126,11 @@ Example
     </HTML>
 
 
-Clicking on a link loads JSON data from the API endpoint specified in `MREF` property into a destination data model object specified in the `RECEIVER` property.  This is destination model object is separate from the DOM.   The `HREF` property remains as a canonical URL for the page, and can be used by older browsers that don't support dynamic page updates.  Older browsers load the canonical `HREF` URL.
+Clicking on a link loads JSON data from the API endpoint specified in `MREF` property into a destination data model object specified in the `RECEIVER` property.  This destination model object is separate from the DOM. The `HREF` property remains as a canonical URL for the page, and can be used by older browsers that don't support dynamic page updates.  Older browsers load the canonical `HREF` URL.
 
 The initial fixture data can be loaded from the `<FIXTURE>` element in a `<MODEL>`, but these fixtures can be loaded via an external link, or implicitly by default from within `<BODY>` elements that contain model references. In this example, the `myArticleData` model loads model fixtures from the `<H1>` and `<SPAN>` elements, while the `myImageData` model loads in fixtures from the `<FIXTURE>` elements.  The overall schema can be defined explicitly by `<MODEL>` elements, or implicitly by `<FIXTURE>`, elements, or even through SQL statements.
 
-The text sections have `<H1>` and `<SPAN>` tags with a new `MODEL` attribute that defines its content based on the model object data.  This format is declarative, but can approach SQL's' complexity.  You don’t need presentation-layer controller/view structures, but this example includes them.
+The text sections have `<H1>` and `<SPAN>` tags with a new `MODEL` attribute that defines its content based on the model object data.  This format is declarative, but can approach SQL's complexity.  You don’t need presentation-layer controller/view structures, but this example includes them.
 
 There is also a `model:` URI that old attributes and the rest of the page can use to references the loaded data.  Anything in the DOM should be replaceable, including the URL bar and style sheets.  This internal data can be modified by Javascript if needed, separate from modifying the DOM - you could export this data for form processing if you wish.  This internal data can also be push updated by a server or connected directly to a local database for caching or persistence - the browser manages this now, instead of the web developer/Javascript.
 
@@ -139,9 +139,9 @@ Model references can call any object, with the ability to define conditions to a
 Model Object
 ------------
 
-A `<MODEL>` is equivalent to an SQL TABLE.  Both the model’s `TYPE` attribute and `<PROPERTY>` elements would be the equivalent of an SQL `COLUMN`.  For example, the `article` model has a `TYPE="string"`, and this means the article model has a default field that is equivalent of an SQL `VARCHAR` field.  We can add more fields via `<PROPERTY>` elements, as done in the example.  The `image` model in this example doesn’t have a default field, but we added several via `<PROPERTY>` elements.  All models should have at least one default and unique primary key - ID.  I don’t show it here, but this is where we would have foreign key references as well, via a `<REFERENCE>` elements.  This example uses child model definitions to make it clear.
+A `<MODEL>` is equivalent to an SQL TABLE.  Both the model’s `TYPE` attribute and `<PROPERTY>` elements would be the equivalent of an SQL `COLUMN`.  For example, the `article` model has a `TYPE="string"`, and this means the article model has a default field that is equivalent of an SQL `VARCHAR` field.  We can add more fields via `<PROPERTY>` elements, as done in the example.  The `image` model in this example doesn’t have a default field, but we added several via `<PROPERTY>` elements.  All models should have at least one default and unique primary key - ID.  I don’t show it here, but this is where we would have foreign key references as well, via a `<REFERENCE>` element.  This example uses child model definitions to make it clear.
 
-Certain model types are used to define behavior. The `response` type for the `rsp` model indicates to the browser that this is going to be an API’s response, so let’s prepare for that.  Strings could have `maxLengths`, etc.
+Certain model types are used to define behavior. The `response` type for the `rsp` model indicates to the browser that this is going to be an API’s response, so let’s prepare for that.  Strings could have `maxLength`s, etc.
 
 The fun stuff starts to happen with these model definitions. This is where you would have more advanced apps that go beyond simple CRUD.  You could process these objects in Javascript if you wish, and will expand on that here.  
 
