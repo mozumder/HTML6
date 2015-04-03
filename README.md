@@ -152,9 +152,9 @@ The web browser is the controller.
 
 We could assign Javascript event callbacks to these models or properties to perform actions.  There would be a whole set of events, similar to what the HTML presentation layer already has (`onMouseOver`, `onKeyPress`, etc.). For model objects, it would be things like `onLoad`, `onExpire`, etc.. - far too numerous to list here in this early concept stage.  It would include event message objects and bubbling, like the rest of Javascript’s event system.
 
-The user interacts with the document view layer.  The user clicks on a link: '<A mref="http://api.mywebsite.com/article-2">'
+The user interacts with the document view layer.  The user clicks on a link: `<A mref="http://api.mywebsite.com/article-2">`
 
-The view layer notifies the browser of a click, and by default the browser fetches 'http://api.mywebsite.com/article-2' and loads data into the model objects.  The model object then by default updates the document View layer.  All the logic to do that is in the browser.  
+The view layer notifies the browser of a click, and by default the browser fetches `http://api.mywebsite.com/article-2` and loads data into the model objects.  The model object then by default updates the document View layer.  All the logic to do that is in the browser.  
 
 The browser already has a whole Javascript framework that can be used to enhance its behaviour.  If you want to do some processing on the models, just add a Javascript callback to the model's `onLoad` method.
 
