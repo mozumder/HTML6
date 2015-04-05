@@ -27,23 +27,23 @@ Thus, HTML becomes a templating language, with content residing in model objects
 Documents
 ---------
 
-[INTRODUCTION.md](Introduction)
+[Introduction](https://github.com/mozumder/HTML6/blob/master/INTRODUCTION.md)
  - A quick why and how.
 
-[Quickstart - Blog.md](Quickstart - Blog)
+[Quickstart - Blog](https://github.com/mozumder/HTML6/blob/master/Quickstart%20-%20Blog.md)
  - Just want to make a single-page app blog?  Use this document.
  
-[More Scenarios.md](More Scenarios)
+[More Scenarios](https://github.com/mozumder/HTML6/blob/master/More%20Scenarios.md)
  - This document contains a bunch of examples to use in the real world.
  
-[Model Object.md](Model Object)
+[Model Object](https://github.com/mozumder/HTML6/blob/master/Model%20Object.md)
  - The spec for the `<MODEL>` element and `MODEL` attributes.
 
-[Data IO.md](Data IO)
+[Data IO](https://github.com/mozumder/HTML6/blob/master/Data%20IO.md)
  - The spec for data transfer into and out of the models.
  
-[Model API.md](Model API)
+[Model API](https://github.com/mozumder/HTML6/blob/master/Model%20API.md)
  - The spec for Javascript access to the model data.
  
-[SQL Interface.md](SQL Interface)
+[SQL Interface](https://github.com/mozumder/HTML6/blob/master/SQL%20Interface.md)
  - The spec for accessing model data from HTML.
