@@ -28,10 +28,10 @@ Documents
 ---------
 
 [Introduction](https://github.com/mozumder/HTML6/blob/master/INTRODUCTION.md)
- - A quick why and how with rough examples.
+ - A quick why and how with rough examples and ideas.
 
 [Quickstart - Blog](https://github.com/mozumder/HTML6/blob/master/Quickstart%20-%20Blog.md) _currently empty_
- - Just want to make a single-page app blog?  Use this document.
+ - Just want to make a single-page-app blog?  Use this document.
  
 [More Scenarios](https://github.com/mozumder/HTML6/blob/master/More%20Scenarios.md) _currently empty_
  - This document contains a bunch of examples to use in the real world.
@@ -46,4 +46,4 @@ Documents
  - The spec for Javascript access to the model data.
  
 [SQL Interface](https://github.com/mozumder/HTML6/blob/master/SQL%20Interface.md) _currently empty_
- - The spec for accessing model data from HTML.
+ - The spec for accessing model data from HTML using SQL.
