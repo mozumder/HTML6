@@ -99,6 +99,8 @@ A `<MODEL>` is equivalent to an SQL `TABLE`.  The `<FIELD>` elements would be th
 
 Certain field types are used to define behavior. A `response` type can be used to indicate to the browser that this is going to be an API’s response, so let’s prepare for that.  Strings could have `maxLength`s, etc.  
 
+The model data is versatile.  It can be used for various purposes, depending on the app's design and the API that it interfaces with.  The model data can be tied closely to the API server, leaving the client to perform much of the logic.  The model data can be tied closely to the client's view, leaving the API server to perform much of the logic.  The model data can be a temporary cache.  It may also be used offline.
+
 The fun stuff starts to happen with these model definitions. This is where more advanced apps can go beyond simple CRUD.  It is possible to process these model objects in Javascript, and will be expanded on that here.  
 
 Controller
