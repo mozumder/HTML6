@@ -28,7 +28,7 @@ Documents
 ---------
 
 [Introduction](https://github.com/mozumder/HTML6/blob/master/INTRODUCTION.md)
- - A quick why and how.
+ - A quick why and how with rough examples.
 
 [Quickstart - Blog](https://github.com/mozumder/HTML6/blob/master/Quickstart%20-%20Blog.md)
  - Just want to make a single-page app blog?  Use this document.
