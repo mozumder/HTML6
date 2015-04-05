@@ -75,44 +75,44 @@ Example
     </BODY>
     </HTML>
 
-In this example, the `<MODEL>` element defines a data table, and `<FIELD>` elements define fields within that table.  A model table containts multiple rows, optionally accessible by an index.
+In this example, the `<MODEL>` element defines a data table, and `<FIELD>` elements define fields within that table.  A model table may contain multiple rows, optionally accessible by an index.
 
-Initial model data can be loaded in from one of 3 places: `<FIXTURE>` elements in a `<MODEL>`, external fixture URLs, or from elements that contain references to models.  In this example, the `article` model loads initial `headline` and `body` data from the `<H1>` and `<SPAN>` elements, while the `image` model loads initial data from the `<FIXTURE>` element.  The overall schema can be defined explicitly by `<MODEL>` elements, implicitly by `<FIXTURE>` elements, or even through SQL statements.
+Initial model data can be loaded in from one of 3 places: `<FIXTURE>` elements in a `<MODEL>`, external fixture URLs, or from elements in the page that contain model references.  In this example, the `article` model loads initial `headline` and `body` data from the `<H1>` and `<SPAN>` elements, while the `image` model loads initial data from the `<FIXTURE>` element.  The overall schema can be defined explicitly by `<MODEL>` elements, implicitly by `<FIXTURE>` elements, or even through SQL statements.
 
-Clicking on a link loads JSON data from the API endpoint specified in `MREF` property into a destination model specified in the `RECEIVER` property.  Model objects are separate from the DOM. The `HREF` property remains as a canonical URL for the page, and can be used by older browsers that don't support dynamic page updates.  Older browsers load the canonical `HREF` URL, and newer browsers places the `HREF` in the URL bar via `pushState`.
+Clicking on a link loads JSON data from an API endpoint specified in the `MREF` property into a destination model specified in the `RECEIVER` property.  Model objects are separate from the DOM. The `HREF` property remains as a canonical URL for the page, and can be used by older browsers that don't support dynamic page updates, or shared to other users to recall the site.  The `HREF` would be placed in the URL bar via `pushState`, and can change during navigation.  The `HREF` is also optional, and a site can operate fully within the same URL if the site's author wishes.
 
-The text sections have `<H1>` and `<SPAN>` tags with a new `MODEL` attribute that defines its content based on the model object data.  
+The text sections in this example have `<H1>` and `<SPAN>` elements with a new `MODEL` attribute.  This `MODEL` attribute defines the elements content based on the model object that it references.  
 
-The `MODEL` attribute can reference `<MODEL>` or `<FIELD>` data.  If it references a `<FIELD>`, then that field becomes the content of the element. In this example, the `<H1>` contains a reference to `article.headline`, and so the most recent `article.headline` becomes the content of `<H1>`.
+The `MODEL` attribute can reference either `<MODEL>` or `<FIELD>` data.  If it references a `<FIELD>`, then that field becomes the content of the element. In this example, the `<H1>` contains a reference to `article.headline`, and so the most recent `article.headline` becomes the content of `<H1>`.
 
-If the `MODEL` attribute references a `<MODEL>`, then the element's' attribute names are matched to `<FIELD>` names, thus setting the content of the attributes.  A `<MODEL>` may also have an optional default field for the element's contents.
+If the `MODEL` attribute references a `<MODEL>`, then the element's attribute names are matched to `<FIELD>` names.  This is how to set an element's attributes.  A `<MODEL>` may also have an optional default field for the element's contents.
 
-Which row does a model reference select?  By default, the most recent.  Model references can also contain query selectors to access specific rows.  It is possible to have `<IMG model='image(id=3)'>` and this would always load the third image.  It is also possible to loop through lists of objects, as well as using `<TEMPLATE>` tags to instantiate new DOM objects.  Selectors can also be used to reference common error conditions.  More advanced link URLs could include SQL statements - `<A mref="http://...">` becomes `<A mref="sql:select from *">`.  Conventions would be defined for authentication.  The controller’s own `HREF` links could also be changed.  A link could update multiple model structures.  
+Since a model may contain multiple rows, which row would a model reference select?  By default, the most recent row.  Model references can also contain query selectors to select specific rows.  It is possible to have `<IMG model='image(id=3)'>` and this would always load the third image.  It is also possible to loop through lists of objects, as well as using `<TEMPLATE>` tags to instantiate new DOM objects.  Selectors can also be used to reference common error conditions.  More advanced link URLs could include SQL statements - `<A mref="http://...">` becomes `<A mref="sql:select from *">`.  Conventions would be defined for authentication.  The controller’s own `HREF` links could also be changed.  A link could update multiple model structures.  
 
-Model data can be modified by Javascript if needed.  You could also export this data during form processing if you wish. Anything in the DOM can be modified by `MODEL` attributes and/or Javascript, including `<HEAD>` elements, the URL bar, and style sheets.   External servers can also push data into models.  Models can also be connected directly to a local database for caching or persistence - the browser manages this now, instead of the web developer/Javascript.
+Model data can be modified by Javascript if needed.  Model data could also be exported during form processing if desired. Anything in the DOM can be modified by `MODEL` attributes and/or Javascript, including `<HEAD>` elements, the URL bar, and style sheets.   External servers can also push data into models, using a Push API.  Models can also be connected directly to a local database for caching or persistence - the browser manages this now, instead of the web developer/Javascript.
 
 
 Model Object
 ------------
 
-A `<MODEL>` is equivalent to an SQL `TABLE`.  The `<FIELD>` elements would be the equivalent of an SQL `COLUMN`.  Fields are by default `TYPE=string`.  This would be the equivalent to an SQL `VARCHAR` field.  A `<MODEL>` element can optionally include a field, but it doesn't include a field by default.  We can add more fields via `<FIELD>` elements, as done in the examples here.  The `image` model in this example doesn’t have a default field, but we added several via `<FIELD>` elements.  All models should have at least one default and unique primary key - `ID` (or `index`).  It's not shown here, but it's possible to define foreign key references as well, via a `<REFERENCE>` element.  This example uses the `image` model as a child model of the `article` model.
+A `<MODEL>` is equivalent to an SQL `TABLE`.  The `<FIELD>` elements would be the equivalent of an SQL `COLUMN`.  Fields are by default `TYPE=string`.  This would be the equivalent to an SQL `VARCHAR` field.  A `<MODEL>` element can optionally include a field, but it doesn't include a field by default.  More fields can be added via `<FIELD>` elements, as done in the examples here.  The `image` model in this example doesn’t have a default field, but several were added via `<FIELD>` elements.  All models should have at least one default and unique primary key - `ID` (or `index`).  It's not shown here, but it's possible to define foreign key references as well, via a `<REFERENCE>` element.  This example uses the `image` model as a child model of the `article` model.
 
-Certain model types are used to define behavior. A `response` type can be used to indicate to the browser that this is going to be an API’s response, so let’s prepare for that.  Strings could have `maxLength`s, etc.  
+Certain field types are used to define behavior. A `response` type can be used to indicate to the browser that this is going to be an API’s response, so let’s prepare for that.  Strings could have `maxLength`s, etc.  
 
-The fun stuff starts to happen with these model definitions. This is where you would have more advanced apps that go beyond simple CRUD.  You could process these objects in Javascript if you wish, and will expand on that here.  
+The fun stuff starts to happen with these model definitions. This is where more advanced apps can go beyond simple CRUD.  It is possible to process these model objects in Javascript, and will be expanded on that here.  
 
 Controller
 ----------
 
 The web browser is the controller. 
 
-We could assign Javascript event callbacks to these models or properties to perform actions.  There would be a whole set of events, similar to what the HTML presentation layer already has (`onMouseOver`, `onKeyPress`, etc.). For model objects, it would be things like `onLoad`, `onExpire`, etc.. - far too numerous to list here in this early concept stage.  It would include event message objects and bubbling, like the rest of Javascript’s event system.
+Javascript event callbacks could be assigneed to model objects to perform actions.  There would be a set of events, similar to what the HTML presentation layer already has (`onMouseOver`, `onKeyPress`, etc.). For model objects, it would be things like `onLoad`, `onExpire`, etc.. - far too numerous to list here in this early concept stage.  It would include event message objects and bubbling, similar to Javascript’s event system.
 
 The user interacts with the document view layer.  The user clicks on a link: `<A mref="http://api.mywebsite.com/article-2">`
 
-The view layer notifies the browser of a click, and by default the browser fetches `http://api.mywebsite.com/article-2` and loads data into the model objects.  The model object then by default updates the document View layer.  All the logic to do that is in the browser.  
+The view layer notifies the browser of a click, and the browser fetches `http://api.mywebsite.com/article-2` and loads data into the model objects.  The model object then updates the document View layer.  All the logic to do that is in the browser.  
 
-The browser already has a whole Javascript framework that can be used to enhance its behaviour.  To optionally process models after loading, add a Javascript callback to the model's `onLoad` method.
+The browser already has a full Javascript interpreter that can be used to enhance this behaviour.  To optionally process models after loading, add a Javascript callback to the model's `onLoad` method.
 
 This maintains the separation of concerns in HTML.  HTML isn’t doing logic here.  The browser is still responsible for logic, and it has default behaviors for these models ("Clicking on this link loads external data into this model") which can be extended ("convert the Markdown model data into HTML", or "load API data at a scroll point")
 
