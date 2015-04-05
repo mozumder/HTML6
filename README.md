@@ -30,20 +30,20 @@ Documents
 [Introduction](https://github.com/mozumder/HTML6/blob/master/INTRODUCTION.md)
  - A quick why and how with rough examples.
 
-[Quickstart - Blog](https://github.com/mozumder/HTML6/blob/master/Quickstart%20-%20Blog.md)
+[Quickstart - Blog](https://github.com/mozumder/HTML6/blob/master/Quickstart%20-%20Blog.md) _currently empty_
  - Just want to make a single-page app blog?  Use this document.
  
-[More Scenarios](https://github.com/mozumder/HTML6/blob/master/More%20Scenarios.md)
+[More Scenarios](https://github.com/mozumder/HTML6/blob/master/More%20Scenarios.md) _currently empty_
  - This document contains a bunch of examples to use in the real world.
  
-[Model Object](https://github.com/mozumder/HTML6/blob/master/Model%20Object.md)
+[Model Object](https://github.com/mozumder/HTML6/blob/master/Model%20Object.md) _currently empty_
  - The spec for the `<MODEL>` element and `MODEL` attributes.
 
-[Data IO](https://github.com/mozumder/HTML6/blob/master/Data%20IO.md)
+[Data IO](https://github.com/mozumder/HTML6/blob/master/Data%20IO.md) _currently empty_
  - The spec for data transfer into and out of the models.
  
 [Model API](https://github.com/mozumder/HTML6/blob/master/Model%20API.md)
  - The spec for Javascript access to the model data.
  
-[SQL Interface](https://github.com/mozumder/HTML6/blob/master/SQL%20Interface.md)
+[SQL Interface](https://github.com/mozumder/HTML6/blob/master/SQL%20Interface.md) _currently empty_
  - The spec for accessing model data from HTML.
