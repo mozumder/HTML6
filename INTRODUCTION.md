@@ -214,7 +214,7 @@ This would be the equivalent to "`block`" structures in other templating languag
 
 The following is a `<TEMPLATE>` example with infinite scroll:
 
-	<UL class="headLines">
+	<UL class="headlines">
 		<TEMPLATE model="article">
 			<LI model="this.headline" onShow="loadMoreArticles"></LI>
 		</TEMPLATE>
