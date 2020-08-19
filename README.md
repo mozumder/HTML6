@@ -1,5 +1,3 @@
-_These documents are volatile & updated quite a bit.  Check back often!  And feedback is appreciated._
-
 HTML6 Single-page apps without Javascript
 -----------------------------------------
 
