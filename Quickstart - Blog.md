@@ -3,7 +3,7 @@ Quickstart: Blog
 
 There are three initial examples in this Quickstart.
 
- -
+***
 
 1. Static HTML5 page: The "before" picture
 ------------------------------------------
@@ -39,7 +39,7 @@ In this example, links in the table-of-contents menubar are used to guide the re
 2. Introducing <MODEL> elements for articles
 --------------------------------------------
 
-For our first steps into a model-driven web, we will create <MODEL> elements in the <HEAD>.  These model elements will be used to populate the tags in the article body.
+For our first steps into a model-driven web, we will create `<MODEL>` elements in the `<HEAD>`.  These model elements will be used to populate the tags in the article body.
 
 
     <!DOCTYPE html>
@@ -69,17 +69,17 @@ For our first steps into a model-driven web, we will create <MODEL> elements in 
     </HTML>
 
 
-By default each <FIELD> element is of type "text".  When a model is assigned to an element, such as <H1 model="article.headline"></H1>, the content of the element is replaced with the text.
+By default each `<FIELD>` element is of type "text".  When a model is assigned to an element, such as `<H1 model="article.headline"></H1>`, the content of the element is replaced with the text.
 
 There is a built-in "IMG" field type, and that allows models to include attribute information, such as image WIDTH and HEIGHT.  
 
-In fact, there are built-in types for every single HTML Element.  (<FIELD TYPE="DIV">, <FIELD TYPE="P">, etc.. ) This allows models to include the various attributes of every Element type, including global attributes.  These attributes are now accessible as part of the model definition.  Finally, when a model is assigned to an element, these attributes are attached to the element.
+In fact, there are built-in types for every single HTML Element.  (`<FIELD TYPE="DIV">`, `<FIELD TYPE="P">`, etc.. ) This allows models to include the various attributes of every Element type, including global attributes.  These attributes are now accessible as part of the model definition.  Finally, when a model is assigned to an element, these attributes are attached to the element.
 
 
-3. Using <MODEL> elements for the Table-of-Contents
+3. Using `<MODEL>` elements for the Table-of-Contents
 ---------------------------------------------------
 
-This example shows you how to build a Table-of-contents menubar using the <MODEL> element.
+This example shows you how to build a Table-of-contents menubar using the `<MODEL>` element.
 
  
     <!DOCTYPE html>
